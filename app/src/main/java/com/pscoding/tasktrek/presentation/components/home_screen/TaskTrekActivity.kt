@@ -17,13 +17,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.pscoding.tasktrek.R
 import com.pscoding.tasktrek.presentation.theme.TaskTrekTheme
-import com.pscoding.tasktrek.presentation.theme.comfortaaFamily
 
 @Composable
 fun TaskTrekActivity(
@@ -56,16 +53,12 @@ fun TaskTrekActivity(
             Text(
                 text = name,
                 color = MaterialTheme.colorScheme.onPrimary,
-                fontSize = 18.sp,
-                fontFamily = comfortaaFamily,
-                fontWeight = FontWeight.Normal
+                style = MaterialTheme.typography.displaySmall
             )
             Text(
                 text = "$currentTasksCount tasks now  /  $completedTasksCount completed",
                 color = MaterialTheme.colorScheme.onTertiary,
-                fontSize = 16.sp,
-                fontFamily = comfortaaFamily,
-                fontWeight = FontWeight.Normal,
+                style = MaterialTheme.typography.displaySmall,
                 modifier = Modifier.padding(top = 8.dp)
             )
         }
