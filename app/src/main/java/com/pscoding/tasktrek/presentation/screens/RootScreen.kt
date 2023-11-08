@@ -8,6 +8,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.pscoding.tasktrek.navigation.AppNavGraph
 import com.pscoding.tasktrek.navigation.Screen
 import com.pscoding.tasktrek.navigation.rememberNavigationState
+import com.pscoding.tasktrek.presentation.screens.home.HomeScreen
+import com.pscoding.tasktrek.presentation.screens.new_task.NewTaskScreen
 
 @Composable
 fun RootScreen() {

@@ -34,9 +34,9 @@ fun HomeHeader(
     modifier: Modifier = Modifier,
     userName: String = "Valeria Anderson",
     userStatus: String = "Student",
-    userAvatar: Int,
+    userImage: Int,
     openMenu: () -> Unit,
-    changeAvatar: () -> Unit,
+    changeImage: () -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -68,8 +68,8 @@ fun HomeHeader(
                     modifier = Modifier
                         .size(120.dp)
                         .clip(CircleShape)
-                        .clickable { changeAvatar() },
-                    painter = painterResource(id = userAvatar),
+                        .clickable { changeImage() },
+                    painter = painterResource(id = userImage),
                     contentDescription = null
                 )
                 Column{
@@ -97,8 +97,8 @@ fun HomeHeader(
 fun HeaderProfilePreview() {
     HomeHeader(
         modifier = Modifier.height(250.dp).width(700.dp),
-        userAvatar = R.drawable.ic_user_avatar_defalt,
+        userImage = R.drawable.ic_user_avatar_defalt,
         openMenu = {},
-        changeAvatar = {}
+        changeImage = {}
     )
 }

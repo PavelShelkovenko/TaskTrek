@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.android.kotlin)
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -51,13 +52,21 @@ android {
 }
 
 dependencies {
+
+    // Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
+    // Compose
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
 
+    // Coil
     implementation(libs.bundles.coil)
+
+    // Room
+    implementation(libs.bundles.room)
+    kapt(libs.androidx.room.compiler)
 
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.testing)

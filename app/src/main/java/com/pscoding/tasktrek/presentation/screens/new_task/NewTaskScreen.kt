@@ -1,4 +1,4 @@
-package com.pscoding.tasktrek.presentation.screens
+package com.pscoding.tasktrek.presentation.screens.new_task
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

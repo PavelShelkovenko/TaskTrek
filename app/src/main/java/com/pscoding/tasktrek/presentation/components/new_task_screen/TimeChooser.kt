@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,17 +33,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.pscoding.tasktrek.R
+import com.pscoding.tasktrek.domain.formatTimeToString
 import com.pscoding.tasktrek.presentation.theme.TaskTrekTheme
 import java.util.Calendar
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimeChooser(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    //chosenTime: (String) -> Unit
 ) {
     var showTimePicker by remember { mutableStateOf(false) }
     val state = rememberTimePickerState()
-    //val formatter = remember { SimpleDateFormat("hh:mm a", Locale.getDefault()) }
+
+    var chosenTime by rememberSaveable {
+        mutableStateOf(formatTimeToString(Calendar.getInstance().time.toInstant().toEpochMilli()))
+    }
 
     if (showTimePicker) {
         TimePickerDialog(
@@ -52,7 +59,7 @@ fun TimeChooser(
                 cal.set(Calendar.HOUR_OF_DAY, state.hour)
                 cal.set(Calendar.MINUTE, state.minute)
                 cal.isLenient = false
-                // "Entered time: ${formatter.format(cal.time)}"
+                chosenTime = formatTimeToString(cal.timeInMillis)
                 showTimePicker = false
             },
         ) {
@@ -88,7 +95,7 @@ fun TimeChooser(
                 .clickable { showTimePicker = true }
         ) {
             Text(
-                text = "15:00 - 16:00",
+                text = chosenTime,
                 style = MaterialTheme.typography.displayMedium,
                 color = MaterialTheme.colorScheme.onSecondary,
                 modifier = Modifier
@@ -115,7 +122,8 @@ fun TimeChooser(
 @Composable
 fun PreviewTimeChooser() {
     TaskTrekTheme {
-        TimeChooser()
+        TimeChooser(
+        )
     }
 }
 

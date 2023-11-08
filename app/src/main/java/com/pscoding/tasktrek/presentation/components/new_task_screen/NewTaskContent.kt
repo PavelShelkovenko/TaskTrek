@@ -44,7 +44,6 @@ fun NewTaskContent(
             Spacer(modifier = Modifier.height(32.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                //verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
                 NewTaskButton { }
