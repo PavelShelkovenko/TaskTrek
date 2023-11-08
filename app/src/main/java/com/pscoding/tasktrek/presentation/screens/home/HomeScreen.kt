@@ -1,4 +1,4 @@
-package com.pscoding.tasktrek.presentation.screens
+package com.pscoding.tasktrek.presentation.screens.home
 
 import androidx.compose.foundation.layout.Column
 
@@ -26,9 +26,9 @@ fun HomeScreen(
     ) {
         HomeHeader(
             modifier = Modifier.weight(0.23f),
-            userAvatar = R.drawable.ic_user_avatar_defalt,
+            userImage = R.drawable.ic_user_avatar_defalt,
             openMenu = { navigateToNewTaskScreen() },
-            changeAvatar = {}
+            changeImage = {}
         )
 
         Spacer(Modifier.height(4.dp))
