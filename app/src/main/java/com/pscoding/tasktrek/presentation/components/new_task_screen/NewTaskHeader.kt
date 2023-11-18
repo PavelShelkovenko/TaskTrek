@@ -16,10 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,13 +25,10 @@ import com.pscoding.tasktrek.presentation.theme.TaskTrekTheme
 @Composable
 fun NewTaskHeader(
     modifier: Modifier = Modifier,
+    title: String,
+    onTitleChanged: (String) -> Unit,
     openMenu: () -> Unit
 ) {
-
-    var text by rememberSaveable {
-        mutableStateOf("")
-    }
-
 
     Column(modifier = modifier) {
         Row(modifier = Modifier.fillMaxWidth()) {
@@ -61,8 +54,8 @@ fun NewTaskHeader(
             modifier = Modifier.padding(top = 18.dp)
         )
         TextField(
-            value = text,
-            onValueChange = { text = it },
+            value = title,
+            onValueChange = { onTitleChanged(it) },
             textStyle = MaterialTheme.typography.displayMedium,
             modifier = Modifier
                 .padding(top = 10.dp)
@@ -98,6 +91,8 @@ fun PreviewNewTaskHeader() {
     TaskTrekTheme {
         NewTaskHeader(
             modifier = Modifier,
+            title = "test preview",
+            onTitleChanged = {},
             openMenu = {}
         )
     }

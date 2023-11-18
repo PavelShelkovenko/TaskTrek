@@ -10,7 +10,7 @@ import androidx.room.TypeConverters
 @TypeConverters(RoomConverters::class)
 abstract class AppDatabase: RoomDatabase() {
 
-    abstract fun TaskTrekDao(): TaskTrekDao
+    abstract fun taskTrekDao(): TaskTrekDao
 
     companion object {
 

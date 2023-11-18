@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Menu
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -35,7 +35,7 @@ fun HomeHeader(
     userName: String = "Valeria Anderson",
     userStatus: String = "Student",
     userImage: Int,
-    openMenu: () -> Unit,
+    addNewTask: () -> Unit,
     changeImage: () -> Unit,
 ) {
     Box(
@@ -51,10 +51,11 @@ fun HomeHeader(
                     .padding(8.dp)
             ) {
                 Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = { openMenu() }) {
+                IconButton(onClick = { addNewTask() }) {
                     Icon(
-                        imageVector = Icons.Outlined.Menu,
+                        imageVector = Icons.Outlined.Add,
                         tint = MaterialTheme.colorScheme.onSecondary,
+                        modifier = Modifier.size(32.dp),
                         contentDescription = null
                     )
                 }
@@ -98,7 +99,7 @@ fun HeaderProfilePreview() {
     HomeHeader(
         modifier = Modifier.height(250.dp).width(700.dp),
         userImage = R.drawable.ic_user_avatar_defalt,
-        openMenu = {},
+        addNewTask = {},
         changeImage = {}
     )
 }

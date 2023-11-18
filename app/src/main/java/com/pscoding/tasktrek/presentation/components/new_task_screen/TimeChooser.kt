@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,14 +41,11 @@ import java.util.Calendar
 @Composable
 fun TimeChooser(
     modifier: Modifier = Modifier,
-    //chosenTime: (String) -> Unit
+    selectedTime: String,
+    onSelectedTimeChanged: (String) -> Unit
 ) {
     var showTimePicker by remember { mutableStateOf(false) }
     val state = rememberTimePickerState()
-
-    var chosenTime by rememberSaveable {
-        mutableStateOf(formatTimeToString(Calendar.getInstance().time.toInstant().toEpochMilli()))
-    }
 
     if (showTimePicker) {
         TimePickerDialog(
@@ -59,7 +55,7 @@ fun TimeChooser(
                 cal.set(Calendar.HOUR_OF_DAY, state.hour)
                 cal.set(Calendar.MINUTE, state.minute)
                 cal.isLenient = false
-                chosenTime = formatTimeToString(cal.timeInMillis)
+                onSelectedTimeChanged(formatTimeToString(cal.timeInMillis))
                 showTimePicker = false
             },
         ) {
@@ -85,7 +81,7 @@ fun TimeChooser(
 
     Column(modifier = modifier) {
         Text(
-            text = "Time",
+            text = "Starting time",
             style = MaterialTheme.typography.displaySmall,
             color = MaterialTheme.colorScheme.onTertiary,
         )
@@ -95,7 +91,7 @@ fun TimeChooser(
                 .clickable { showTimePicker = true }
         ) {
             Text(
-                text = chosenTime,
+                text = selectedTime,
                 style = MaterialTheme.typography.displayMedium,
                 color = MaterialTheme.colorScheme.onSecondary,
                 modifier = Modifier
@@ -123,6 +119,8 @@ fun TimeChooser(
 fun PreviewTimeChooser() {
     TaskTrekTheme {
         TimeChooser(
+            selectedTime = "",
+            onSelectedTimeChanged = {}
         )
     }
 }

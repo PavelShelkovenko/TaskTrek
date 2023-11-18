@@ -10,6 +10,7 @@ fun AppNavGraph(
     navHostController: NavHostController,
     homeScreenContent: @Composable () -> Unit,
     newTaskScreenContent: @Composable () -> Unit,
+    viewTaskScreenContent: @Composable () -> Unit
 ) {
     NavHost(
         navController = navHostController,
@@ -20,6 +21,9 @@ fun AppNavGraph(
         }
         composable(Screen.NewTaskScreen.route) {
             newTaskScreenContent()
+        }
+        composable(Screen.ViewTaskScreen.route) {
+            viewTaskScreenContent()
         }
     }
 }
