@@ -19,11 +19,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,24 +28,16 @@ import androidx.compose.ui.unit.dp
 import com.pscoding.tasktrek.R
 import com.pscoding.tasktrek.domain.formatDateToString
 import com.pscoding.tasktrek.presentation.theme.TaskTrekTheme
-import java.time.LocalDate
-import java.time.ZoneOffset
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateChooser(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    selectedDate: String,
+    onSelectedDateChanged: (String) -> Unit
 ) {
     val openDialog = remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
-
-    var selectedDate by rememberSaveable {
-        mutableStateOf(
-            formatDateToString(
-                LocalDate.now().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()
-            )
-        )
-    }
 
     if (openDialog.value) {
         val confirmEnabled = remember {
@@ -62,7 +51,10 @@ fun DateChooser(
                 TextButton(
                     onClick = {
                         openDialog.value = false
-                        selectedDate = formatDateToString(datePickerState.selectedDateMillis)
+                        onSelectedDateChanged(
+                            formatDateToString(datePickerState.selectedDateMillis!!)
+                        )
+                        //selectedDate = formatDateToString(datePickerState.selectedDateMillis)
                     },
                     enabled = confirmEnabled.value
                 ) {
@@ -94,7 +86,6 @@ fun DateChooser(
             text = "Date",
             style = MaterialTheme.typography.displaySmall,
             color = MaterialTheme.colorScheme.onTertiary,
-            modifier = Modifier.clickable { openDialog.value = true }
         )
         Row(
             modifier = Modifier
@@ -129,6 +120,9 @@ fun DateChooser(
 @Composable
 fun PreviewDateChooser() {
     TaskTrekTheme {
-        DateChooser()
+        DateChooser(
+            selectedDate = "Friday 10, November",
+            onSelectedDateChanged = {}
+        )
     }
 }

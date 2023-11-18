@@ -16,10 +16,6 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,14 +27,11 @@ import com.pscoding.tasktrek.presentation.theme.TaskTrekTheme
 
 @Composable
 fun Reminder(
-
+    remindStatus: Boolean,
+    onRemindStatusChanged: (Boolean) -> Unit
 ) {
 
-    var checked by remember {
-        mutableStateOf(false)
-    }
-
-    val icon: (@Composable () -> Unit)? = if (checked) {
+    val icon: (@Composable () -> Unit)? = if (remindStatus) {
         {
             Icon(
                 imageVector = Icons.Filled.Check,
@@ -58,7 +51,7 @@ fun Reminder(
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))
-                .background(MaterialTheme.colorScheme.surface)
+                .background(MaterialTheme.colorScheme.background)
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_notification),
@@ -75,9 +68,9 @@ fun Reminder(
         )
         Spacer(modifier = Modifier.weight(1f))
         Switch(
-            checked = checked,
+            checked = remindStatus,
             onCheckedChange = {
-                checked = it
+                onRemindStatusChanged(it)
             },
             thumbContent = icon,
             colors = SwitchDefaults.colors(
@@ -95,6 +88,9 @@ fun Reminder(
 @Composable
 fun PreviewReminder() {
     TaskTrekTheme {
-        Reminder()
+        Reminder(
+            remindStatus = false,
+            onRemindStatusChanged = {}
+        )
     }
 }

@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.pscoding.tasktrek.presentation.theme.TaskTrekTheme
 
 @Composable
-fun NewTaskButton(
+fun NewTaskCreateButton(
     modifier: Modifier = Modifier,
     createNewTask: () -> Unit
 ) {
@@ -47,7 +47,7 @@ fun PreviewNewTaskButton() {
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.onBackground)
         )
-        NewTaskButton(
+        NewTaskCreateButton(
             createNewTask = {}
         )
     }

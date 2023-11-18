@@ -1,15 +1,14 @@
 package com.pscoding.tasktrek.presentation.screens
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.pscoding.tasktrek.navigation.AppNavGraph
 import com.pscoding.tasktrek.navigation.Screen
 import com.pscoding.tasktrek.navigation.rememberNavigationState
 import com.pscoding.tasktrek.presentation.screens.home.HomeScreen
 import com.pscoding.tasktrek.presentation.screens.new_task.NewTaskScreen
+import com.pscoding.tasktrek.presentation.screens.view_task_screen.ViewTaskScreen
 
 @Composable
 fun RootScreen() {
@@ -22,15 +21,15 @@ fun RootScreen() {
         navHostController = navigationState.navHostController,
         homeScreenContent = {
             HomeScreen(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                navigationState.navigateTo(Screen.NewTaskScreen.route)
-            }
-        },
-        newTaskScreenContent = {
-            NewTaskScreen(
-                modifier = Modifier.fillMaxSize()
+                navigateToNewTaskScreen = {
+                    navigationState.navigateTo(Screen.NewTaskScreen.route)
+                },
+                navigateToViewTaskScreen = {
+                    navigationState.navigateTo(Screen.ViewTaskScreen.route)
+                }
             )
-        }
+        },
+        newTaskScreenContent = { NewTaskScreen() },
+        viewTaskScreenContent = { ViewTaskScreen() }
     )
 }

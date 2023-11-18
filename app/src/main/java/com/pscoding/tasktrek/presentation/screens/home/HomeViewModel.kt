@@ -5,7 +5,7 @@ import com.pscoding.tasktrek.domain.usecase.TaskUseCases
 
 
 class HomeViewModel(
-    private val taskUseCases: TaskUseCases
+    val taskUseCases: TaskUseCases
 ): ViewModel() {
 
 }

@@ -68,10 +68,14 @@ dependencies {
     implementation(libs.bundles.room)
     kapt(libs.androidx.room.compiler)
 
+    // Koin
+    implementation(libs.bundles.koin)
+
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.testing)
 
     testImplementation(libs.junit)
+    testImplementation(libs.koin.test)
 
     debugImplementation(libs.bundles.debug)
 }
