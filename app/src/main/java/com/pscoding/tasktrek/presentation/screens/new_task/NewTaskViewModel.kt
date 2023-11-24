@@ -16,7 +16,7 @@ class NewTaskViewModel(
     private val addTask: AddTask
 ) : ViewModel() {
 
-    var state = MutableStateFlow(NewTaskState())
+    var state = MutableStateFlow(NewTaskScreenState())
         private set
 
     fun onEvent(event: NewTaskEvent) {

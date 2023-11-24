@@ -6,7 +6,7 @@ import java.time.LocalDate
 import java.time.ZoneOffset
 import java.util.Calendar
 
-data class NewTaskState(
+data class NewTaskScreenState(
     val title: String = "",
     val date: String = formatDateToString(
         LocalDate.now().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()

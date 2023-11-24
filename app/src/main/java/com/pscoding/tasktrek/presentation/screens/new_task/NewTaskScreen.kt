@@ -11,15 +11,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pscoding.tasktrek.presentation.components.new_task_screen.DateChooser
 import com.pscoding.tasktrek.presentation.components.new_task_screen.NewTaskCreateButton
 import com.pscoding.tasktrek.presentation.components.new_task_screen.NewTaskHeader
@@ -35,9 +37,15 @@ fun NewTaskScreen(
 ) {
 
     val viewModel = koinViewModel<NewTaskViewModel>()
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
-    Column(modifier = modifier.fillMaxSize().padding(8.dp)) {
+    val scrollState = rememberScrollState()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp)
+    ) {
         NewTaskHeader(
             modifier = Modifier
                 .padding(start = 28.dp)
@@ -50,78 +58,70 @@ fun NewTaskScreen(
         )
         Spacer(modifier = Modifier.height(12.dp))
         Box(
-            modifier = modifier.fillMaxSize()
+            modifier = modifier
+                .fillMaxSize()
                 .weight(0.64f)
                 .clip(RoundedCornerShape(32.dp))
                 .background(MaterialTheme.colorScheme.onBackground)
+                .verticalScroll(scrollState)
         ) {
-            LazyColumn(
+            Column(
                 modifier = Modifier
                     .padding(32.dp)
                     .fillMaxSize()
             ) {
-                item {
-                    DateChooser(
-                        selectedDate = state.date,
-                        onSelectedDateChanged = { newDate ->
-                            viewModel.onEvent(
-                                NewTaskEvent.DateChanged(newDate = newDate)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
-                }
+                DateChooser(
+                    selectedDate = state.date,
+                    onSelectedDateChanged = { newDate ->
+                        viewModel.onEvent(
+                            NewTaskEvent.DateChanged(newDate = newDate)
+                        )
+                    }
+                )
+                Spacer(modifier = Modifier.height(12.dp))
 
-                item {
-                    TimeChooser(
-                        selectedTime = state.time,
-                        onSelectedTimeChanged = { newTime ->
-                            viewModel.onEvent(
-                                NewTaskEvent.TimeChanged(newTime = newTime)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
-                }
+                TimeChooser(
+                    selectedTime = state.time,
+                    onSelectedTimeChanged = { newTime ->
+                        viewModel.onEvent(
+                            NewTaskEvent.TimeChanged(newTime = newTime)
+                        )
+                    }
+                )
+                Spacer(modifier = Modifier.height(12.dp))
 
-                item {
-                    Reminder(
-                        remindStatus = state.remindStatus,
-                        onRemindStatusChanged = { newStatus ->
-                            viewModel.onEvent(
-                                NewTaskEvent.RemindStatusChanged(newStatus = newStatus)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
-                }
+                Reminder(
+                    remindStatus = state.remindStatus,
+                    onRemindStatusChanged = { newStatus ->
+                        viewModel.onEvent(
+                            NewTaskEvent.RemindStatusChanged(newStatus = newStatus)
+                        )
+                    }
+                )
+                Spacer(modifier = Modifier.height(12.dp))
 
-                item {
-                    NewTaskCategory(
-                        modifier = Modifier.fillMaxWidth(),
-                        categories = state.category,
-                        addCategory = { newCategory ->
-                            viewModel.onEvent(
-                                NewTaskEvent.CategoryAdded(newCategory = newCategory)
-                            )
-                        },
-                        deleteCategory = { deletedCategory ->
-                            viewModel.onEvent(
-                                NewTaskEvent.CategoryDeleted(deletedCategory = deletedCategory)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(32.dp))
-                }
+                NewTaskCategory(
+                    modifier = Modifier.fillMaxWidth(),
+                    categories = state.category,
+                    addCategory = { newCategory ->
+                        viewModel.onEvent(
+                            NewTaskEvent.CategoryAdded(newCategory = newCategory)
+                        )
+                    },
+                    deleteCategory = { deletedCategory ->
+                        viewModel.onEvent(
+                            NewTaskEvent.CategoryDeleted(deletedCategory = deletedCategory)
+                        )
+                    }
+                )
+                Spacer(modifier = Modifier.height(32.dp))
 
-                item {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        NewTaskCreateButton {
-                            viewModel.onEvent(NewTaskEvent.CreateTask)
-                        }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    NewTaskCreateButton {
+                        viewModel.onEvent(NewTaskEvent.CreateTask)
                     }
                 }
             }

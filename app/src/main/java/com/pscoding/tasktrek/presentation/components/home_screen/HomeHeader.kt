@@ -1,19 +1,17 @@
 package com.pscoding.tasktrek.presentation.components.home_screen
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.Icon
@@ -38,58 +36,54 @@ fun HomeHeader(
     addNewTask: () -> Unit,
     changeImage: () -> Unit,
 ) {
-    Box(
-        modifier = modifier
-            .clip(RoundedCornerShape(32.dp))
-            .background(MaterialTheme.colorScheme.onBackground),
+    Column(
+        modifier = modifier.padding(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = { addNewTask() }) {
-                    Icon(
-                        imageVector = Icons.Outlined.Add,
-                        tint = MaterialTheme.colorScheme.onSecondary,
-                        modifier = Modifier.size(32.dp),
-                        contentDescription = null
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(12.dp))
-            Row(
-                modifier = Modifier.padding(start = 20.dp, bottom = 20.dp).height(250.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    modifier = Modifier
-                        .size(120.dp)
-                        .clip(CircleShape)
-                        .clickable { changeImage() },
-                    painter = painterResource(id = userImage),
+            Spacer(modifier = Modifier.weight(1f))
+            IconButton(onClick = { addNewTask() }) {
+                Icon(
+                    imageVector = Icons.Outlined.Add,
+                    tint = MaterialTheme.colorScheme.onSecondary,
+                    modifier = Modifier.size(32.dp),
                     contentDescription = null
                 )
-                Column{
-                    Text(
-                        text = userName,
-                        color = MaterialTheme.colorScheme.onSecondary,
-                        modifier = Modifier.padding(start = 20.dp, end = 10.dp),
-                        style = MaterialTheme.typography.displayMedium,
-                    )
-                    Text(
-                        text = userStatus,
-                        color = MaterialTheme.colorScheme.onTertiary,
-                        modifier = Modifier.padding(start = 20.dp, top = 4.dp),
-                        style = MaterialTheme.typography.displaySmall,
-                    )
-                }
             }
         }
-
+        Row(
+            modifier = Modifier,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Image(
+                modifier = Modifier
+                    .size(120.dp)
+                    .clip(CircleShape)
+                    .clickable { changeImage() },
+                painter = painterResource(id = userImage),
+                contentDescription = null
+            )
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = userName,
+                    color = MaterialTheme.colorScheme.onSecondary,
+                    style = MaterialTheme.typography.displayMedium,
+                )
+                Text(
+                    text = userStatus,
+                    color = MaterialTheme.colorScheme.onTertiary,
+                    modifier = Modifier.padding(top = 4.dp),
+                    style = MaterialTheme.typography.displaySmall,
+                )
+            }
+        }
     }
 }
 
@@ -97,7 +91,7 @@ fun HomeHeader(
 @Composable
 fun HeaderProfilePreview() {
     HomeHeader(
-        modifier = Modifier.height(250.dp).width(700.dp),
+        modifier = Modifier,
         userImage = R.drawable.ic_user_avatar_defalt,
         addNewTask = {},
         changeImage = {}
