@@ -3,13 +3,16 @@ package com.pscoding.tasktrek.presentation.components.home_screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,40 +31,44 @@ fun TaskTrekActivity(
     modifier: Modifier = Modifier,
     imageResId: Int,
     currentTasksCount: Int,
-    completedTasksCount: Int,
     onClick: (String) -> Unit
 ) {
     Row(
         modifier = modifier
             .wrapContentWidth()
             .clickable { onClick(name) },
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
-                .size(50.dp)
+                .size(42.dp)
                 .background(MaterialTheme.colorScheme.onBackground),
             contentAlignment = Alignment.Center
         ) {
             Image(
-                modifier = Modifier.size(42.dp),
+                //modifier = Modifier.size(42.dp),
                 painter = painterResource(id = imageResId),
                 contentDescription = null
             )
         }
         Spacer(modifier = Modifier.width(16.dp))
-        Column {
+        Column(
+            modifier = Modifier.wrapContentHeight(),
+            verticalArrangement = Arrangement.Center
+        ) {
             Text(
                 text = name,
                 color = MaterialTheme.colorScheme.onPrimary,
-                style = MaterialTheme.typography.displaySmall
+                style = MaterialTheme.typography.displaySmall,
             )
             Text(
-                text = "$currentTasksCount tasks now  /  $completedTasksCount completed",
+                text = "$currentTasksCount tasks now",
                 color = MaterialTheme.colorScheme.onTertiary,
                 style = MaterialTheme.typography.displaySmall,
                 modifier = Modifier.padding(top = 8.dp)
             )
         }
+        Spacer(modifier = Modifier.width(32.dp))
     }
 }
 
@@ -73,7 +80,6 @@ fun TaskTrekActivityPreview() {
             name = "To do",
             imageResId = R.drawable.ic_clock,
             currentTasksCount = 21,
-            completedTasksCount = 12,
             onClick = {}
         )
     }

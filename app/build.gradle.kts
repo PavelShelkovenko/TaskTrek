@@ -71,6 +71,9 @@ dependencies {
     // Koin
     implementation(libs.bundles.koin)
 
+    // Calendar
+    implementation(libs.bundles.calendar)
+
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.testing)
 

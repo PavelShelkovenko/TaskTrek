@@ -1,23 +1,36 @@
 package com.pscoding.tasktrek.presentation.screens.home
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pscoding.tasktrek.R
-import com.pscoding.tasktrek.presentation.components.home_screen.BottomCalendar
 import com.pscoding.tasktrek.presentation.components.home_screen.HomeHeader
 import com.pscoding.tasktrek.presentation.components.home_screen.TaskTrekActivity
+import com.pscoding.tasktrek.presentation.components.home_screen.calendar.BottomCalendar
 import com.pscoding.tasktrek.presentation.theme.TaskTrekTheme
 import org.koin.androidx.compose.koinViewModel
+
 
 
 @Composable
@@ -26,60 +39,74 @@ fun HomeScreen(
     navigateToViewTaskScreen: () -> Unit,
 ) {
     val viewModel = koinViewModel<HomeViewModel>()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(12.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(start = 6.dp, end = 6.dp)
     ) {
-        HomeHeader(
-            modifier = Modifier.weight(0.23f),
-            userImage = R.drawable.ic_user_avatar_defalt,
-            addNewTask = { navigateToNewTaskScreen() },
-            changeImage = {}
-        )
-
-        Spacer(Modifier.height(4.dp))
-
-        Column(
-            modifier = Modifier.weight(0.25f),
-            verticalArrangement = Arrangement.Center
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.25f)
+                .clip(RoundedCornerShape(28.dp))
+                .background(MaterialTheme.colorScheme.onBackground)
         ) {
-            Text(
-                text = "My tasks",
-                color = MaterialTheme.colorScheme.onPrimary,
-                modifier = Modifier.padding(start = 28.dp),
-                style = MaterialTheme.typography.displayMedium
-            )
-            TaskTrekActivity(
-                modifier = Modifier.padding(start = 28.dp, top = 14.dp),
-                name = "To do",
-                imageResId = R.drawable.ic_clock,
-                currentTasksCount = 21,
-                completedTasksCount = 12,
-                onClick = {}
-            )
-            TaskTrekActivity(
-                modifier = Modifier.padding(start = 28.dp, top = 20.dp),
-                name = "In progress",
-                imageResId = R.drawable.ic_paperplane,
-                currentTasksCount = 21,
-                completedTasksCount = 12,
-                onClick = {}
-            )
-            TaskTrekActivity(
-                modifier = Modifier.padding(start = 28.dp, top = 20.dp),
-                name = "Done",
-                imageResId = R.drawable.ic_ok,
-                currentTasksCount = 21,
-                completedTasksCount = 12,
-                onClick = {}
+            HomeHeader(
+                userImage = R.drawable.ic_user_avatar_defalt,
+                addNewTask = { navigateToNewTaskScreen() },
+                changeImage = {}
             )
         }
-
-        Spacer(Modifier.height(4.dp))
-
-        BottomCalendar(
-            modifier = Modifier.weight(0.23f)
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxHeight(0.45f)
+                .fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(start = 42.dp)
+                    .fillMaxHeight()
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Text(
+                    text = "My tasks",
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.displayMedium
+                )
+                TaskTrekActivity(
+                    name = "To do",
+                    imageResId = R.drawable.ic_clock,
+                    currentTasksCount = state.toDoTasksCount,
+                    onClick = {}
+                )
+                TaskTrekActivity(
+                    name = "In progress",
+                    imageResId = R.drawable.ic_paperplane,
+                    currentTasksCount = state.inProgressTasksCount,
+                    onClick = {}
+                )
+                TaskTrekActivity(
+                    name = "Done",
+                    imageResId = R.drawable.ic_ok,
+                    currentTasksCount = state.doneTasksCount,
+                    onClick = {}
+                )
+            }
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(1f)
+                .clip(RoundedCornerShape(28.dp))
+                .background(MaterialTheme.colorScheme.onBackground)
+        ) {
+            BottomCalendar(
+                modifier = Modifier.padding(start = 28.dp, top = 24.dp)
+            )
+        }
     }
 }
 

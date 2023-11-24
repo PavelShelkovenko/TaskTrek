@@ -12,6 +12,8 @@ compose-bom = "2023.10.01"
 coil = "2.2.2"
 room = "2.6.0"
 koin = "3.5.0"
+kotlinx-date-time = "0.4.1"
+compose-calendar = "1.1.1"
 
 [libraries]
 #Core
@@ -20,6 +22,7 @@ androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtim
 
 #Compose
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+androidx-lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle-runtime-ktx" }
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
@@ -49,15 +52,21 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin"}
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin"}
 koin-test = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin"}
 
+#Calendar
+kotlinx-date-time = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-date-time"}
+compose-calendar = { module = "io.github.boguszpawlowski.composecalendar:composecalendar", version.ref = "compose-calendar"}
+compose-calendar-ext = { module = "io.github.boguszpawlowski.composecalendar:kotlinx-datetime", version.ref = "compose-calendar"}
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle"}
 android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin"}
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 
 [bundles]
-compose = ["androidx-activity-compose", "compose-ui", "compose-ui-graphics", "compose-ui-preview", "compose-material3", "androidx-navigation-runtime-ktx"]
+compose = ["androidx-activity-compose", "androidx-lifecycle-compose", "compose-ui", "compose-ui-graphics", "compose-ui-preview", "compose-material3", "androidx-navigation-runtime-ktx"]
 testing = ["androidx-espresso-core", "androidx-junit", "androidx-compose-ui-junit4"]
 debug = ["compose-ui-tooling", "androidx-compose-ui-test-manifest"]
 coil = ["coil-compose", "coil-svg"]
 room = ["androidx-room-runtime", "androidx-room-ktx"]
 koin = ["koin-android", "koin-compose"]
+calendar = ["kotlinx-date-time", "compose-calendar", "compose-calendar-ext"]
