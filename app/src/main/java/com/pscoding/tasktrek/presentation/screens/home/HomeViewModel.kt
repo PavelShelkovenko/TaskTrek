@@ -4,64 +4,117 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pscoding.tasktrek.domain.model.TaskStatus
 import com.pscoding.tasktrek.domain.usecase.GetAllTasks
-import kotlinx.coroutines.flow.SharingStarted
+import com.pscoding.tasktrek.presentation.FileManager
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 
 class HomeViewModel(
-    private val getAllTasks: GetAllTasks
+    getAllTasks: GetAllTasks,
+    private val fileManager: FileManager
 ) : ViewModel() {
 
+    var state = MutableStateFlow(HomeScreenState())
+        private set
 
-    var toDoTasksList = getAllTasks().map { listOfTasks ->
-        listOfTasks.filter { task ->
-            task.status == TaskStatus.TODO
-        }
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = emptyList()
-    )
-
-    val state = getAllTasks().map {
-        it.groupBy {
-            it.status
+    private val taskFlow = getAllTasks().map { allTasks ->
+        allTasks.groupBy { task ->
+            task.status
         }.mapValues {
             it.value.size
         }
-    }.map {
-        HomeScreenState(
-            toDoTasksCount = it[TaskStatus.TODO] ?: 0,
-            inProgressTasksCount = it[TaskStatus.INPROGRESS] ?: 0,
-            doneTasksCount = it[TaskStatus.DONE] ?: 0,
-        )
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = HomeScreenState()
-    )
+    }
 
-
-
-    var inProgressTasksList = getAllTasks().map { listOfTasks ->
-        listOfTasks.filter { task ->
-            task.status == TaskStatus.INPROGRESS
+    init {
+        viewModelScope.launch {
+            taskFlow.collect { tasksMap ->
+                state.update {
+                    it.copy(
+                        toDoTasksCount = tasksMap[TaskStatus.TODO] ?: 0,
+                        inProgressTasksCount = tasksMap[TaskStatus.INPROGRESS] ?: 0,
+                        doneTasksCount = tasksMap[TaskStatus.DONE] ?: 0,
+                    )
+                }
+            }
         }
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = emptyList()
-    )
+        loadUserInfo()
+    }
 
-    var doneTasksList = getAllTasks().map { listOfTasks ->
-        listOfTasks.filter { task ->
-            task.status == TaskStatus.DONE
+    fun onEvent(event: HomeScreenEvent) {
+        when (event) {
+            is HomeScreenEvent.UserImageChanged -> {
+                event.newUserImage?.let { saveUserImage(it) }
+            }
+
+            is HomeScreenEvent.UserNameChanged -> {
+                saveUserName(event.newUserName)
+            }
+
+            is HomeScreenEvent.UserStatusChanged -> {
+                saveUserStatus(event.newUserStatus)
+            }
         }
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = emptyList()
-    )
+    }
 
+    private fun updateUserImage() {
+        viewModelScope.launch {
+            val currentUserImage = fileManager.getUserImage(viewModelScope)
+            state.update {
+                it.copy(
+                    userImage = currentUserImage
+                )
+            }
+        }
+    }
+
+    private fun saveUserImage(newUserImage: ByteArray) {
+        viewModelScope.launch {
+            fileManager.saveUserImage(newUserImage = newUserImage)
+            updateUserImage()
+        }
+    }
+
+    private fun updateUserName() {
+        viewModelScope.launch {
+            val currentUserName = fileManager.getUserName(viewModelScope)
+            state.update {
+                it.copy(
+                    userName = currentUserName ?: "Your name"
+                )
+            }
+        }
+    }
+
+    private fun saveUserName(newUserName: String) {
+        viewModelScope.launch {
+            fileManager.saveUserName(newUserName = newUserName)
+            updateUserName()
+        }
+    }
+
+    private fun updateUserStatus() {
+        viewModelScope.launch {
+            val currentUserStatus = fileManager.getUserStatus(viewModelScope)
+            state.update {
+                it.copy(
+                    userStatus = currentUserStatus ?: "Your status"
+                )
+            }
+        }
+    }
+
+    private fun saveUserStatus(newUserStatus: String) {
+        viewModelScope.launch {
+            fileManager.saveUserStatus(newUserStatus = newUserStatus)
+            updateUserStatus()
+        }
+    }
+
+    private fun loadUserInfo() {
+        updateUserImage()
+        updateUserName()
+        updateUserStatus()
+    }
 }

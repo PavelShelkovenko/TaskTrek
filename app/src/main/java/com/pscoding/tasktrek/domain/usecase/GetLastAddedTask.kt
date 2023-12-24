@@ -3,10 +3,10 @@ package com.pscoding.tasktrek.domain.usecase
 import com.pscoding.tasktrek.domain.TaskTrekRepository
 import com.pscoding.tasktrek.domain.model.Task
 
-class GetTaskById(
+class GetLastAddedTask(
     private val repository: TaskTrekRepository
 ) {
-    suspend operator fun invoke(taskId: String): Task {
-        return repository.getTaskById(taskId = taskId)
+    suspend operator fun invoke(): Task {
+        return repository.getLastAddedTask()
     }
 }

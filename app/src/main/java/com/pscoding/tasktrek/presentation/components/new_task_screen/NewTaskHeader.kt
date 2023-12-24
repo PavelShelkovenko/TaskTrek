@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Menu
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,15 +27,15 @@ fun NewTaskHeader(
     modifier: Modifier = Modifier,
     title: String,
     onTitleChanged: (String) -> Unit,
-    openMenu: () -> Unit
+    navigateBackToHomeScreen: () -> Unit
 ) {
 
     Column(modifier = modifier) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Spacer(modifier = Modifier.weight(1f))
-            IconButton(onClick = { openMenu() }) {
+            IconButton(onClick = { navigateBackToHomeScreen() }) {
                 Icon(
-                    imageVector = Icons.Outlined.Menu,
+                    imageVector = Icons.Outlined.ArrowBack,
                     tint = MaterialTheme.colorScheme.onPrimary,
                     contentDescription = null
                 )
@@ -93,7 +93,7 @@ fun PreviewNewTaskHeader() {
             modifier = Modifier,
             title = "test preview",
             onTitleChanged = {},
-            openMenu = {}
+            navigateBackToHomeScreen = {}
         )
     }
 }

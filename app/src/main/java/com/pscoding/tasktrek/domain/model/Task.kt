@@ -3,9 +3,11 @@ package com.pscoding.tasktrek.domain.model
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import java.util.UUID
 
 
 data class Task(
+    val id: String = UUID.randomUUID().toString(),
     val title: String,
     val status: TaskStatus = TaskStatus.TODO,
     val date: Long = LocalDate.now().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli(),
@@ -18,4 +20,4 @@ enum class TaskStatus {
     TODO, INPROGRESS, DONE
 }
 
-class InvalidTaskException(message: String): Exception(message)
+class InvalidTaskException(message: String) : Exception(message)

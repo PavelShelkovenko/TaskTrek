@@ -11,8 +11,9 @@ interface TaskTrekRepository {
 
     suspend fun editTask(task: Task)
 
-    suspend fun getTaskById(taskId: Int): Task
+    suspend fun getTaskById(taskId: String): Task
 
+    suspend fun getLastAddedTask(): Task
     fun getAllTasks(): Flow<List<Task>>
 
 }

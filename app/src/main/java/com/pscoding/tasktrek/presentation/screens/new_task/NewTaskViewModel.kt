@@ -8,12 +8,16 @@ import com.pscoding.tasktrek.domain.formatStringToTime
 import com.pscoding.tasktrek.domain.model.InvalidTaskException
 import com.pscoding.tasktrek.domain.model.Task
 import com.pscoding.tasktrek.domain.usecase.AddTask
+import com.pscoding.tasktrek.domain.usecase.DeleteTask
+import com.pscoding.tasktrek.domain.usecase.GetLastAddedTask
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class NewTaskViewModel(
-    private val addTask: AddTask
+    private val addTask: AddTask,
+    private val deleteTask: DeleteTask,
+    private val getLastAddedTask: GetLastAddedTask
 ) : ViewModel() {
 
     var state = MutableStateFlow(NewTaskScreenState())
@@ -79,6 +83,10 @@ class NewTaskViewModel(
             is NewTaskEvent.CreateTask -> {
                 createTask()
             }
+
+            is NewTaskEvent.DeleteTask -> {
+                deleteTask()
+            }
         }
     }
 
@@ -100,6 +108,17 @@ class NewTaskViewModel(
                     )
                 )
             } catch (e: InvalidTaskException) {
+                println(e.message)
+            }
+        }
+    }
+
+    private fun deleteTask() {
+        viewModelScope.launch {
+            try {
+                val lastAddedTask = getLastAddedTask()
+                deleteTask(task = lastAddedTask)
+            } catch (e: Exception) {
                 println(e.message)
             }
         }
