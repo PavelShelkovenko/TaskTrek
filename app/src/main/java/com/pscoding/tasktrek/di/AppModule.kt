@@ -8,8 +8,10 @@ import com.pscoding.tasktrek.domain.usecase.AddTask
 import com.pscoding.tasktrek.domain.usecase.DeleteTask
 import com.pscoding.tasktrek.domain.usecase.EditTask
 import com.pscoding.tasktrek.domain.usecase.GetAllTasks
+import com.pscoding.tasktrek.domain.usecase.GetLastAddedTask
 import com.pscoding.tasktrek.domain.usecase.GetTaskById
 import com.pscoding.tasktrek.domain.usecase.TaskUseCases
+import com.pscoding.tasktrek.presentation.FileManager
 import com.pscoding.tasktrek.presentation.screens.home.HomeViewModel
 import com.pscoding.tasktrek.presentation.screens.new_task.NewTaskViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
@@ -25,11 +27,13 @@ val appModule = module {
     }
     single { TaskTrekMapper }
     single { AppDatabase.getInstance(application = get()).taskTrekDao() }
+    single { FileManager(context = get()) }
     factory { AddTask(repository = get()) }
     factory { DeleteTask(repository = get()) }
     factory { EditTask(repository = get()) }
     factory { GetAllTasks(repository = get()) }
     factory { GetTaskById(repository = get()) }
+    factory { GetLastAddedTask(repository = get()) }
     factoryOf(::TaskUseCases)
     viewModelOf(::HomeViewModel)
     viewModelOf(::NewTaskViewModel)

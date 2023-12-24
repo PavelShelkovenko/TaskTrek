@@ -1,9 +1,7 @@
 package com.pscoding.tasktrek.presentation.components.new_task_screen
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -18,11 +16,13 @@ import com.pscoding.tasktrek.presentation.theme.TaskTrekTheme
 @Composable
 fun NewTaskCreateButton(
     modifier: Modifier = Modifier,
-    createNewTask: () -> Unit
+    createNewTask: () -> Unit,
 ) {
     Box(modifier = modifier) {
         Button(
-            onClick = { createNewTask() },
+            onClick = {
+                createNewTask()
+            },
             shape = CutCornerShape(2.dp),
             border = BorderStroke(4.dp, MaterialTheme.colorScheme.background),
             elevation = ButtonDefaults.elevatedButtonElevation(
@@ -42,11 +42,6 @@ fun NewTaskCreateButton(
 @Composable
 fun PreviewNewTaskButton() {
     TaskTrekTheme {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.onBackground)
-        )
         NewTaskCreateButton(
             createNewTask = {}
         )

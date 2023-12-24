@@ -1,4 +1,5 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.android.kotlin)
@@ -73,6 +74,9 @@ dependencies {
 
     // Calendar
     implementation(libs.bundles.calendar)
+
+    // SharedPreferences
+    implementation(libs.shared.preferences)
 
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.testing)
