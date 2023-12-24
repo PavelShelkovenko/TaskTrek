@@ -5,11 +5,10 @@ import androidx.room.PrimaryKey
 import com.pscoding.tasktrek.domain.model.TaskStatus
 
 
-
 @Entity(tableName = "task_trek")
 data class TaskDbModel(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey
+    val id: String,
     val title: String,
     val status: TaskStatus,
     val date: Long,

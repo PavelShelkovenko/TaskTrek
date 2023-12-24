@@ -1,16 +1,12 @@
 package com.pscoding.tasktrek.presentation.screens.home
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -19,18 +15,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pscoding.tasktrek.R
-import com.pscoding.tasktrek.presentation.components.home_screen.HomeHeader
 import com.pscoding.tasktrek.presentation.components.home_screen.TaskTrekActivity
 import com.pscoding.tasktrek.presentation.components.home_screen.calendar.BottomCalendar
+import com.pscoding.tasktrek.presentation.components.home_screen.header.HomeHeader
 import com.pscoding.tasktrek.presentation.theme.TaskTrekTheme
 import org.koin.androidx.compose.koinViewModel
-
 
 
 @Composable
@@ -49,14 +42,36 @@ fun HomeScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.25f)
+                .fillMaxHeight(0.27f)
                 .clip(RoundedCornerShape(28.dp))
                 .background(MaterialTheme.colorScheme.onBackground)
         ) {
             HomeHeader(
-                userImage = R.drawable.ic_user_avatar_defalt,
+                userImage = state.userImage,
+                userName = state.userName,
+                userStatus = state.userStatus,
                 addNewTask = { navigateToNewTaskScreen() },
-                changeImage = {}
+                onUserImageChanged = { newUserImage ->
+                    viewModel.onEvent(
+                        HomeScreenEvent.UserImageChanged(
+                            newUserImage = newUserImage
+                        )
+                    )
+                },
+                onUserNameChanged = { newUserName ->
+                    viewModel.onEvent(
+                        HomeScreenEvent.UserNameChanged(
+                            newUserName = newUserName
+                        )
+                    )
+                },
+                onUserStatusChanged = { newUserStatus ->
+                    viewModel.onEvent(
+                        HomeScreenEvent.UserStatusChanged(
+                            newUserStatus = newUserStatus
+                        )
+                    )
+                },
             )
         }
         Box(
@@ -115,8 +130,8 @@ fun HomeScreen(
 fun HomeScreenPreview() {
     TaskTrekTheme {
         HomeScreen(
-            navigateToNewTaskScreen ={},
-            navigateToViewTaskScreen ={}
+            navigateToNewTaskScreen = {},
+            navigateToViewTaskScreen = {}
         )
     }
 }

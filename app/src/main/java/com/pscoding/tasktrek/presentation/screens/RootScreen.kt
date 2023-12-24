@@ -15,7 +15,7 @@ fun RootScreen() {
 
     val navigationState = rememberNavigationState()
     val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
+    //val currentRoute = navBackStackEntry?.destination?.route
 
     AppNavGraph(
         navHostController = navigationState.navHostController,
@@ -29,7 +29,13 @@ fun RootScreen() {
                 }
             )
         },
-        newTaskScreenContent = { NewTaskScreen() },
+        newTaskScreenContent = {
+            NewTaskScreen(
+                navigateBackToHomeScreen = {
+                    navigationState.navigateTo(Screen.HomeScreen.route)
+                }
+            )
+        },
         viewTaskScreenContent = { ViewTaskScreen() }
     )
 }

@@ -10,13 +10,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,99 +35,131 @@ import com.pscoding.tasktrek.presentation.components.new_task_screen.Reminder
 import com.pscoding.tasktrek.presentation.components.new_task_screen.TimeChooser
 import com.pscoding.tasktrek.presentation.components.new_task_screen.category.NewTaskCategory
 import com.pscoding.tasktrek.presentation.theme.TaskTrekTheme
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun NewTaskScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateBackToHomeScreen: () -> Unit
 ) {
 
     val viewModel = koinViewModel<NewTaskViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val scrollState = rememberScrollState()
+    val coroutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp)
-    ) {
-        NewTaskHeader(
+    val onShowSnackbar: () -> Unit = {
+        coroutineScope.launch {
+            val result = snackbarHostState
+                .showSnackbar(
+                    message = "New task has been created",
+                    actionLabel = "Undo",
+                    duration = SnackbarDuration.Short
+                )
+            when (result) {
+                SnackbarResult.ActionPerformed -> {
+                    viewModel.onEvent(NewTaskEvent.DeleteTask)
+                }
+
+                SnackbarResult.Dismissed -> {
+                    /* Handle snackbar dismissed */
+                }
+            }
+        }
+    }
+
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        }
+    ) { contentPadding ->
+        Column(
             modifier = Modifier
-                .padding(start = 28.dp)
-                .weight(0.3f),
-            title = state.title,
-            onTitleChanged = { newTitle ->
-                viewModel.onEvent(NewTaskEvent.TitleChanged(newTitle))
-            },
-            openMenu = {}
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-        Box(
-            modifier = modifier
                 .fillMaxSize()
-                .weight(0.64f)
-                .clip(RoundedCornerShape(32.dp))
-                .background(MaterialTheme.colorScheme.onBackground)
-                .verticalScroll(scrollState)
+                .padding(contentPadding)
+                .padding(8.dp)
         ) {
-            Column(
+            NewTaskHeader(
                 modifier = Modifier
-                    .padding(32.dp)
+                    .padding(start = 28.dp)
+                    .weight(0.3f),
+                title = state.title,
+                onTitleChanged = { newTitle ->
+                    viewModel.onEvent(NewTaskEvent.TitleChanged(newTitle))
+                },
+                navigateBackToHomeScreen = { navigateBackToHomeScreen() }
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Box(
+                modifier = modifier
                     .fillMaxSize()
+                    .weight(0.64f)
+                    .clip(RoundedCornerShape(32.dp))
+                    .background(MaterialTheme.colorScheme.onBackground)
+                    .verticalScroll(scrollState)
             ) {
-                DateChooser(
-                    selectedDate = state.date,
-                    onSelectedDateChanged = { newDate ->
-                        viewModel.onEvent(
-                            NewTaskEvent.DateChanged(newDate = newDate)
-                        )
-                    }
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-
-                TimeChooser(
-                    selectedTime = state.time,
-                    onSelectedTimeChanged = { newTime ->
-                        viewModel.onEvent(
-                            NewTaskEvent.TimeChanged(newTime = newTime)
-                        )
-                    }
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Reminder(
-                    remindStatus = state.remindStatus,
-                    onRemindStatusChanged = { newStatus ->
-                        viewModel.onEvent(
-                            NewTaskEvent.RemindStatusChanged(newStatus = newStatus)
-                        )
-                    }
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-
-                NewTaskCategory(
-                    modifier = Modifier.fillMaxWidth(),
-                    categories = state.category,
-                    addCategory = { newCategory ->
-                        viewModel.onEvent(
-                            NewTaskEvent.CategoryAdded(newCategory = newCategory)
-                        )
-                    },
-                    deleteCategory = { deletedCategory ->
-                        viewModel.onEvent(
-                            NewTaskEvent.CategoryDeleted(deletedCategory = deletedCategory)
-                        )
-                    }
-                )
-                Spacer(modifier = Modifier.height(32.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
+                Column(
+                    modifier = Modifier
+                        .padding(32.dp)
+                        .fillMaxSize()
                 ) {
-                    NewTaskCreateButton {
-                        viewModel.onEvent(NewTaskEvent.CreateTask)
+                    DateChooser(
+                        selectedDate = state.date,
+                        onSelectedDateChanged = { newDate ->
+                            viewModel.onEvent(
+                                NewTaskEvent.DateChanged(newDate = newDate)
+                            )
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    TimeChooser(
+                        selectedTime = state.time,
+                        onSelectedTimeChanged = { newTime ->
+                            viewModel.onEvent(
+                                NewTaskEvent.TimeChanged(newTime = newTime)
+                            )
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Reminder(
+                        remindStatus = state.remindStatus,
+                        onRemindStatusChanged = { newStatus ->
+                            viewModel.onEvent(
+                                NewTaskEvent.RemindStatusChanged(newStatus = newStatus)
+                            )
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    NewTaskCategory(
+                        modifier = Modifier.fillMaxWidth(),
+                        categories = state.category,
+                        addCategory = { newCategory ->
+                            viewModel.onEvent(
+                                NewTaskEvent.CategoryAdded(newCategory = newCategory)
+                            )
+                        },
+                        deleteCategory = { deletedCategory ->
+                            viewModel.onEvent(
+                                NewTaskEvent.CategoryDeleted(deletedCategory = deletedCategory)
+                            )
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(32.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        NewTaskCreateButton {
+                            viewModel.onEvent(NewTaskEvent.CreateTask)
+                            onShowSnackbar()
+                        }
                     }
                 }
             }
@@ -133,6 +171,8 @@ fun NewTaskScreen(
 @Composable
 fun PreviewNewTaskScreen() {
     TaskTrekTheme {
-        NewTaskScreen()
+        NewTaskScreen(
+            navigateBackToHomeScreen = {}
+        )
     }
 }

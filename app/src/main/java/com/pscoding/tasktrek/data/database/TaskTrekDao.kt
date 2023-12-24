@@ -13,10 +13,13 @@ interface TaskTrekDao {
     suspend fun insertTask(taskDbModel: TaskDbModel)
 
     @Delete
-    suspend fun deleteTask(taskDbModel: TaskDbModel)
+    suspend fun deleteTask(taskDbModel: TaskDbModel): Int
 
     @Query("SELECT * FROM task_trek WHERE id= :taskId LIMIT 1")
-    suspend fun getTaskById(taskId: Int): TaskDbModel
+    suspend fun getTaskById(taskId: String): TaskDbModel
+
+    @Query("SELECT * FROM task_trek ORDER BY id DESC LIMIT 1")
+    suspend fun getLastAddedTask(): TaskDbModel
 
     @Query("SELECT * FROM task_trek")
     fun getAllTasks(): Flow<List<TaskDbModel>>
