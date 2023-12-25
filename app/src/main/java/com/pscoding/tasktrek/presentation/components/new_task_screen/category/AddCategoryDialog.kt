@@ -21,8 +21,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.pscoding.tasktrek.R
 import com.pscoding.tasktrek.presentation.theme.TaskTrekTheme
 
 @Composable
@@ -39,7 +41,8 @@ fun AddCategoryDialog(
             .width(280.dp)
             .height(280.dp)
             .clip(RoundedCornerShape(42.dp))
-            .background(MaterialTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.background),
+        contentAlignment = Alignment.Center
     ) {
         Column(
             modifier = Modifier.padding(18.dp),
@@ -48,7 +51,7 @@ fun AddCategoryDialog(
         ) {
             Spacer(modifier = Modifier.weight(0.05f))
             Text(
-                text = "Add new category",
+                text = stringResource(id = R.string.add_new_category),
                 style = MaterialTheme.typography.displayLarge,
                 color = MaterialTheme.colorScheme.onBackground
             )
@@ -60,7 +63,7 @@ fun AddCategoryDialog(
                 },
                 textStyle = MaterialTheme.typography.displayMedium,
                 label = {
-                    Text("Category name")
+                    Text(text = stringResource(id = R.string.category_name))
                 },
                 isError = dialogText.length >= 20,
                 colors = TextFieldDefaults.colors(
@@ -74,7 +77,7 @@ fun AddCategoryDialog(
                 shape = RoundedCornerShape(16.dp),
                 supportingText = {
                     if (!canAddCategory) {
-                        Text(text = "Too many characters")
+                        Text(text = stringResource(id = R.string.to_many_characters_error))
                     }
                 }
             )
@@ -96,7 +99,7 @@ fun AddCategoryDialog(
                 )
             ) {
                 Text(
-                    text = "Add",
+                    text = stringResource(id = R.string.add),
                     style = MaterialTheme.typography.displayMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )

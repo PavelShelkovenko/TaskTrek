@@ -2,6 +2,7 @@ package com.pscoding.tasktrek.presentation.components.new_task_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -27,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -81,7 +83,7 @@ fun TimeChooser(
 
     Column(modifier = modifier) {
         Text(
-            text = "Starting time",
+            text = stringResource(id = R.string.starting_time),
             style = MaterialTheme.typography.displaySmall,
             color = MaterialTheme.colorScheme.onTertiary,
         )
@@ -127,7 +129,7 @@ fun PreviewTimeChooser() {
 
 @Composable
 fun TimePickerDialog(
-    title: String = "Select Time",
+    title: String = stringResource(id = R.string.select_time),
     onCancel: () -> Unit,
     onConfirm: () -> Unit,
     toggle: @Composable () -> Unit = {},
@@ -150,14 +152,14 @@ fun TimePickerDialog(
         ) {
             Column(
                 modifier = Modifier.padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     modifier = Modifier
-                        .fillMaxWidth()
                         .padding(bottom = 20.dp),
                     text = title,
-                    style = MaterialTheme.typography.labelMedium
+                    style = MaterialTheme.typography.displayLarge
                 )
                 content()
                 Row(modifier = Modifier
@@ -167,10 +169,16 @@ fun TimePickerDialog(
                     toggle()
                     Spacer(modifier = Modifier.weight(1f))
                     TextButton(onClick = onCancel) {
-                        Text("Cancel")
+                        Text(
+                            text = stringResource(id = R.string.cancel),
+                            style = MaterialTheme.typography.displayMedium
+                        )
                     }
                     TextButton(onClick = onConfirm) {
-                        Text("OK")
+                        Text(
+                            text = stringResource(id = R.string.ok),
+                            style = MaterialTheme.typography.displayMedium
+                        )
                     }
                 }
             }

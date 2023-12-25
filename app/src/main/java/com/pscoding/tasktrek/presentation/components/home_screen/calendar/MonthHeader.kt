@@ -10,8 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.pscoding.tasktrek.R
 import io.github.boguszpawlowski.composecalendar.header.MonthState
 import java.time.format.TextStyle
 import java.util.Locale
@@ -28,13 +29,12 @@ fun MonthHeader(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = "Calendar",
+            text = stringResource(id = R.string.calendar),
             color = MaterialTheme.colorScheme.background,
             style = MaterialTheme.typography.displayMedium
         )
         Spacer(modifier = Modifier.weight(1f))
         Text(
-            modifier = Modifier.testTag("MonthLabel"),
             text = monthState.currentMonth.month
                 .getDisplayName(TextStyle.FULL_STANDALONE, Locale.getDefault())
                 .lowercase()

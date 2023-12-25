@@ -4,17 +4,25 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -44,35 +52,56 @@ fun HomeScreen(
                 .fillMaxWidth()
                 .fillMaxHeight(0.27f)
                 .clip(RoundedCornerShape(28.dp))
-                .background(MaterialTheme.colorScheme.onBackground)
+                .background(MaterialTheme.colorScheme.onBackground),
         ) {
-            HomeHeader(
-                userImage = state.userImage,
-                userName = state.userName,
-                userStatus = state.userStatus,
-                addNewTask = { navigateToNewTaskScreen() },
-                onUserImageChanged = { newUserImage ->
-                    viewModel.onEvent(
-                        HomeScreenEvent.UserImageChanged(
-                            newUserImage = newUserImage
+            Column(
+                modifier = Modifier.padding(top = 18.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 18.dp, start = 18.dp)
+                        .height(32.dp)
+                ) {
+                    Spacer(modifier = Modifier.weight(1f))
+                    IconButton(
+                        onClick = { navigateToNewTaskScreen() },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Add,
+                            tint = MaterialTheme.colorScheme.onSecondary,
+                            modifier = Modifier.fillMaxSize(),
+                            contentDescription = null
                         )
-                    )
-                },
-                onUserNameChanged = { newUserName ->
-                    viewModel.onEvent(
-                        HomeScreenEvent.UserNameChanged(
-                            newUserName = newUserName
+                    }
+                }
+                HomeHeader(
+                    userImage = state.userImage,
+                    userName = state.userName ?: stringResource(id = R.string.default_name),
+                    userStatus = state.userStatus ?: stringResource(id = R.string.default_status),
+                    onUserImageChanged = { newUserImage ->
+                        viewModel.onEvent(
+                            HomeScreenEvent.UserImageChanged(
+                                newUserImage = newUserImage
+                            )
                         )
-                    )
-                },
-                onUserStatusChanged = { newUserStatus ->
-                    viewModel.onEvent(
-                        HomeScreenEvent.UserStatusChanged(
-                            newUserStatus = newUserStatus
+                    },
+                    onUserNameChanged = { newUserName ->
+                        viewModel.onEvent(
+                            HomeScreenEvent.UserNameChanged(
+                                newUserName = newUserName
+                            )
                         )
-                    )
-                },
-            )
+                    },
+                    onUserStatusChanged = { newUserStatus ->
+                        viewModel.onEvent(
+                            HomeScreenEvent.UserStatusChanged(
+                                newUserStatus = newUserStatus
+                            )
+                        )
+                    },
+                )
+            }
         }
         Box(
             modifier = Modifier
@@ -87,27 +116,27 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Text(
-                    text = "My tasks",
+                    text = stringResource(id = R.string.my_tasks),
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.displayMedium
                 )
                 TaskTrekActivity(
-                    name = "To do",
+                    name = stringResource(id = R.string.to_do),
                     imageResId = R.drawable.ic_clock,
                     currentTasksCount = state.toDoTasksCount,
-                    onClick = {}
+                    onClick = { navigateToViewTaskScreen() }
                 )
                 TaskTrekActivity(
-                    name = "In progress",
+                    name = stringResource(id = R.string.in_progress),
                     imageResId = R.drawable.ic_paperplane,
                     currentTasksCount = state.inProgressTasksCount,
-                    onClick = {}
+                    onClick = { navigateToViewTaskScreen() }
                 )
                 TaskTrekActivity(
-                    name = "Done",
+                    name = stringResource(id = R.string.done),
                     imageResId = R.drawable.ic_ok,
                     currentTasksCount = state.doneTasksCount,
-                    onClick = {}
+                    onClick = { navigateToViewTaskScreen() }
                 )
             }
         }

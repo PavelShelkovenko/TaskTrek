@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pscoding.tasktrek.R
@@ -43,7 +44,6 @@ fun Reminder(
         null
     }
 
-
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -57,11 +57,13 @@ fun Reminder(
                 painter = painterResource(id = R.drawable.ic_notification),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(6.dp).size(28.dp)
+                modifier = Modifier
+                    .padding(6.dp)
+                    .size(28.dp)
             )
         }
         Text(
-            text = "Remind me",
+            text = stringResource(id = R.string.remind_me),
             style = MaterialTheme.typography.displayMedium,
             color = MaterialTheme.colorScheme.onSecondary,
             modifier = Modifier.padding(start = 12.dp)

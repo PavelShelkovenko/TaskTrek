@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">TaskTrek</string>
+    <string name="new_task_snackbar_message">%1$s была создана</string>
+    <string name="undo">Отменить</string>
+    <string name="default_name">Ваше имя</string>
+    <string name="default_status">Ваш статус</string>
+    <string name="my_tasks">Мои задачи</string>
+    <string name="to_do">Запланировано</string>
+    <string name="in_progress">В процессе</string>
+    <string name="done">Сделано</string>
+    <string name="tasks_count">%1$d задач</string>
+    <string name="change_user_info_dialog_title">Изменить персональную информацию</string>
+    <string name="change_user_info_dialog_name_label">Ваше имя</string>
+    <string name="change_user_info_dialog_status_label">Ваш статус</string>
+    <string name="change_user_info_dialog_empty_status_error">Нельзя сохранить пустой статус</string>
+    <string name="change_user_info_dialog_empty_name_error">Нельзя сохранить пустое имя</string>
+    <string name="to_many_characters_error">Слишком много символов</string>
+    <string name="save_button_text">Сохранить</string>
+    <string name="calendar">Календарь</string>
+    <string name="starting_time">Выбранное время</string>
+    <string name="select_time">Выберите время</string>
+    <string name="cancel">Отмена</string>
+    <string name="ok">ОК</string>
+    <string name="remind_me">Напомнить мне</string>
+    <string name="create_new_task">Создать новую задачу</string>
+    <string name="task_name">Придумайте задачу</string>
+    <string name="name">Название</string>
+    <string name="create">Создать</string>
+    <string name="date">Дата</string>
+    <string name="category">Категории</string>
+    <string name="add_new_category">Добавить новую категорию</string>
+    <string name="category_name">Название категории</string>
+    <string name="add">Добавить</string>
+</resources>

@@ -81,7 +81,7 @@ class HomeViewModel(
             val currentUserName = fileManager.getUserName(viewModelScope)
             state.update {
                 it.copy(
-                    userName = currentUserName ?: "Your name"
+                    userName = currentUserName
                 )
             }
         }
@@ -99,7 +99,7 @@ class HomeViewModel(
             val currentUserStatus = fileManager.getUserStatus(viewModelScope)
             state.update {
                 it.copy(
-                    userStatus = currentUserStatus ?: "Your status"
+                    userStatus = currentUserStatus
                 )
             }
         }

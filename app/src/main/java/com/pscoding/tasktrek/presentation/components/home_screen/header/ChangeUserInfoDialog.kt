@@ -25,8 +25,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.pscoding.tasktrek.R
 import com.pscoding.tasktrek.presentation.theme.TaskTrekTheme
 
 @Composable
@@ -45,11 +47,9 @@ fun ChangeUserInfoDialog(
     }
 
     val canSaveUserInfo = (
-            currentUserName.isNotBlank() &&
-                    currentUserStatus.isNotBlank() &&
-                    currentUserStatus.length < 30 &&
-                    currentUserName.length < 30
-            )
+        currentUserName.isNotBlank() && currentUserStatus.isNotBlank() &&
+        currentUserName.length < 30  && currentUserStatus.length < 30
+    )
 
     Box(
         modifier = Modifier
@@ -64,11 +64,15 @@ fun ChangeUserInfoDialog(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.weight(0.05f))
-            Text(
-                text = "Change User Information",
-                style = MaterialTheme.typography.displayLarge,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+            Box(
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = stringResource(id = R.string.change_user_info_dialog_title),
+                    style = MaterialTheme.typography.displayLarge,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }
             Spacer(modifier = Modifier.weight(0.1f))
             OutlinedTextField(
                 value = currentUserName,
@@ -77,7 +81,7 @@ fun ChangeUserInfoDialog(
                 },
                 textStyle = MaterialTheme.typography.displayMedium,
                 label = {
-                    Text("Category name")
+                    Text(text = stringResource(id = R.string.change_user_info_dialog_name_label))
                 },
                 isError = (currentUserName.isBlank() || currentUserName.length >= 30),
                 colors = TextFieldDefaults.colors(
@@ -92,11 +96,19 @@ fun ChangeUserInfoDialog(
                 supportingText = {
                     when {
                         currentUserName.isBlank() -> {
-                            Text(text = "Can't save blank status")
+                            Text(
+                                text = stringResource(
+                                    id = R.string.change_user_info_dialog_empty_name_error
+                                )
+                            )
                         }
 
                         currentUserName.length >= 30 -> {
-                            Text(text = "Can't save, too many characters")
+                            Text(
+                                text = stringResource(
+                                    id = R.string.to_many_characters_error
+                                )
+                            )
                         }
                     }
                 })
@@ -108,7 +120,7 @@ fun ChangeUserInfoDialog(
                 },
                 textStyle = MaterialTheme.typography.displayMedium,
                 label = {
-                    Text("Category name")
+                    Text(text = stringResource(id = R.string.change_user_info_dialog_status_label))
                 },
                 isError = (currentUserStatus.isBlank() || currentUserStatus.length >= 30),
                 colors = TextFieldDefaults.colors(
@@ -123,11 +135,19 @@ fun ChangeUserInfoDialog(
                 supportingText = {
                     when {
                         currentUserStatus.isBlank() -> {
-                            Text(text = "Can't save blank status")
+                            Text(
+                                text = stringResource(
+                                    id = R.string.change_user_info_dialog_empty_status_error
+                                )
+                            )
                         }
 
                         currentUserStatus.length >= 30 -> {
-                            Text(text = "Can't save, too many characters")
+                            Text(
+                                text = stringResource(
+                                    id = R.string.to_many_characters_error
+                                )
+                            )
                         }
                     }
                 })
@@ -150,7 +170,7 @@ fun ChangeUserInfoDialog(
                 )
             ) {
                 Text(
-                    text = "Save",
+                    text = stringResource(id = R.string.save_button_text),
                     style = MaterialTheme.typography.displayMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )

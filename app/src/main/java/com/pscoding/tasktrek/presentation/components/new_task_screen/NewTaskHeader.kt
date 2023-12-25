@@ -17,8 +17,10 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.pscoding.tasktrek.R
 import com.pscoding.tasktrek.presentation.theme.TaskTrekTheme
 
 
@@ -42,13 +44,13 @@ fun NewTaskHeader(
             }
         }
         Text(
-            text = "Create new task",
+            text = stringResource(id = R.string.create_new_task),
             color = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier.padding(bottom = 4.dp),
             style = MaterialTheme.typography.displayLarge
         )
         Text(
-            text = "Task name",
+            text = stringResource(id = R.string.task_name),
             color = MaterialTheme.colorScheme.onPrimary,
             style = MaterialTheme.typography.displayMedium,
             modifier = Modifier.padding(top = 18.dp)
@@ -63,7 +65,7 @@ fun NewTaskHeader(
             maxLines = 3,
             placeholder = {
                 Text(
-                    text = "Name",
+                    text = stringResource(id = R.string.name),
                     color = MaterialTheme.colorScheme.onTertiary,
                     style = MaterialTheme.typography.displaySmall
                 )
@@ -74,10 +76,7 @@ fun NewTaskHeader(
                 unfocusedContainerColor = MaterialTheme.colorScheme.background,
                 focusedContainerColor = MaterialTheme.colorScheme.background,
                 cursorColor = MaterialTheme.colorScheme.onPrimary
-            ),
-//            keyboardOptions = KeyboardOptions(
-//                imeAction = ImeAction.Done
-//            )
+            )
         )
     }
 
