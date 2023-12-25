@@ -14,8 +14,6 @@ import com.pscoding.tasktrek.presentation.screens.view_task_screen.ViewTaskScree
 fun RootScreen() {
 
     val navigationState = rememberNavigationState()
-    val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
-    //val currentRoute = navBackStackEntry?.destination?.route
 
     AppNavGraph(
         navHostController = navigationState.navHostController,

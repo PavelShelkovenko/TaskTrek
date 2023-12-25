@@ -23,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pscoding.tasktrek.R
@@ -54,11 +55,10 @@ fun DateChooser(
                         onSelectedDateChanged(
                             formatDateToString(datePickerState.selectedDateMillis!!)
                         )
-                        //selectedDate = formatDateToString(datePickerState.selectedDateMillis)
                     },
                     enabled = confirmEnabled.value
                 ) {
-                    Text("OK")
+                    Text(text = stringResource(id = R.string.ok))
                 }
             },
             dismissButton = {
@@ -67,7 +67,7 @@ fun DateChooser(
                         openDialog.value = false
                     }
                 ) {
-                    Text("Cancel")
+                    Text(text = stringResource(id = R.string.cancel))
                 }
             }
         ) {
@@ -83,7 +83,7 @@ fun DateChooser(
 
     Column(modifier = modifier) {
         Text(
-            text = "Date",
+            text = stringResource(id = R.string.date),
             style = MaterialTheme.typography.displaySmall,
             color = MaterialTheme.colorScheme.onTertiary,
         )

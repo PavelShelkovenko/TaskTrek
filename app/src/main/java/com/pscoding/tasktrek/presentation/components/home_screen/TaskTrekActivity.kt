@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pscoding.tasktrek.R
@@ -46,7 +47,6 @@ fun TaskTrekActivity(
             contentAlignment = Alignment.Center
         ) {
             Image(
-                //modifier = Modifier.size(42.dp),
                 painter = painterResource(id = imageResId),
                 contentDescription = null
             )
@@ -62,7 +62,7 @@ fun TaskTrekActivity(
                 style = MaterialTheme.typography.displaySmall,
             )
             Text(
-                text = "$currentTasksCount tasks now",
+                text = stringResource(id = R.string.tasks_count, currentTasksCount),
                 color = MaterialTheme.colorScheme.onTertiary,
                 style = MaterialTheme.typography.displaySmall,
                 modifier = Modifier.padding(top = 8.dp)

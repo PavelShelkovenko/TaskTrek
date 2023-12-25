@@ -9,8 +9,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.pscoding.tasktrek.R
 import com.pscoding.tasktrek.presentation.theme.TaskTrekTheme
 
 @Composable
@@ -30,7 +32,7 @@ fun NewTaskCreateButton(
             )
         ) {
             Text(
-                text = "Create",
+                text = stringResource(id = R.string.create),
                 style = MaterialTheme.typography.displayMedium,
                 color = MaterialTheme.colorScheme.onSecondary
             )

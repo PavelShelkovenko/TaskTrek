@@ -29,45 +29,43 @@ fun Day(
 
     val isSelected = selectionState.isDateSelected(date)
 
-    if (isSelected) {
-        Box(
-            modifier = modifier
-                .height(36.dp)
-                .width(36.dp)
-                .clip(CircleShape)
-                .clickable {
-                    onClick(date)
-                    selectionState.onDateSelected(date)
+    Box(
+        modifier = modifier
+            .height(36.dp)
+            .width(36.dp)
+            .clip(CircleShape)
+            .conditional(
+                condition = isSelected,
+                ifTrue = {
+                    this.background(MaterialTheme.colorScheme.onSecondary)
                 }
-                .background(MaterialTheme.colorScheme.onSecondary),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(
-                text = date.dayOfMonth.toString(),
-                color = MaterialTheme.colorScheme.onPrimary,
-                style = MaterialTheme.typography.displaySmall
             )
-        }
-    } else {
-        Box(
-            modifier = modifier
-                .height(36.dp)
-                .width(36.dp)
-                .clickable {
-                    onClick(date)
-                    selectionState.onDateSelected(date)
-                },
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(
-                text = date.dayOfMonth.toString(),
-                color = when {
+            .clickable {
+                onClick(date)
+                selectionState.onDateSelected(date)
+            },
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = date.dayOfMonth.toString(),
+            color = if (isSelected) MaterialTheme.colorScheme.onPrimary else {
+                when {
                     state.isCurrentDay -> Color.Red
                     state.isFromCurrentMonth -> MaterialTheme.colorScheme.background
                     else -> MaterialTheme.colorScheme.onTertiary
-                },
-                style = MaterialTheme.typography.displaySmall
-            )
-        }
+                }
+            },
+            style = MaterialTheme.typography.displaySmall
+        )
     }
+}
+
+inline fun Modifier.conditional(
+    condition: Boolean,
+    ifTrue: Modifier.() -> Modifier,
+    ifFalse: Modifier.() -> Modifier = { this },
+): Modifier = if (condition) {
+    then(ifTrue(Modifier))
+} else {
+    then(ifFalse(Modifier))
 }

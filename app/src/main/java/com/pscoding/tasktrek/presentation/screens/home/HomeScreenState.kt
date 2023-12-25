@@ -3,8 +3,8 @@ package com.pscoding.tasktrek.presentation.screens.home
 
 data class HomeScreenState(
     val userImage: ByteArray? = null,
-    val userName: String = "Your name",
-    val userStatus: String = "Your status",
+    val userName: String? = null,
+    val userStatus: String? = null,
     val toDoTasksCount: Int = 0,
     val inProgressTasksCount: Int = 0,
     val doneTasksCount: Int = 0,

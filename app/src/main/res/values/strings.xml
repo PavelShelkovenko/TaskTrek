@@ -1,3 +1,34 @@
 <resources>
     <string name="app_name">TaskTrek</string>
+    <string name="new_task_snackbar_message">%1$s has been created</string>
+    <string name="undo">Undo</string>
+    <string name="default_name">Your name</string>
+    <string name="default_status">Your status</string>
+    <string name="my_tasks">My tasks</string>
+    <string name="to_do">To do</string>
+    <string name="in_progress">In progress</string>
+    <string name="done">Done</string>
+    <string name="tasks_count">%1$d tasks now</string>
+    <string name="change_user_info_dialog_title">Change User Information</string>
+    <string name="change_user_info_dialog_name_label">Your name</string>
+    <string name="change_user_info_dialog_status_label">Your status</string>
+    <string name="change_user_info_dialog_empty_status_error">Can\'t save blank status</string>
+    <string name="change_user_info_dialog_empty_name_error">Can\'t save blank name</string>
+    <string name="to_many_characters_error">Too many characters</string>
+    <string name="save_button_text">Save</string>
+    <string name="calendar">Calendar</string>
+    <string name="starting_time">Starting time</string>
+    <string name="select_time">Select Time</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="remind_me">Remind me</string>
+    <string name="create_new_task">Create new task</string>
+    <string name="task_name">Task name</string>
+    <string name="name">Name</string>
+    <string name="create">Create</string>
+    <string name="date">Date</string>
+    <string name="category">Category</string>
+    <string name="add_new_category">Add new category</string>
+    <string name="category_name">Category name</string>
+    <string name="add">Add</string>
 </resources>

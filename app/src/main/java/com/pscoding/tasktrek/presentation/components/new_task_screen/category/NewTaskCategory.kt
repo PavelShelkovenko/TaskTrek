@@ -12,10 +12,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.pscoding.tasktrek.R
 import com.pscoding.tasktrek.presentation.theme.TaskTrekTheme
 
 @Composable
@@ -25,9 +27,6 @@ fun NewTaskCategory(
     addCategory: (String) -> Unit,
     deleteCategory: (String) -> Unit
 ) {
-
-    Log.d("NewTaskCategory", "categories = $categories")
-
     val openDialog = remember {
         mutableStateOf(false)
     }
@@ -62,7 +61,7 @@ fun NewTaskCategory(
 
     Column(modifier = modifier) {
         Text(
-            text = "Category",
+            text = stringResource(id = R.string.category),
             style = MaterialTheme.typography.displaySmall,
             color = MaterialTheme.colorScheme.onTertiary,
         )

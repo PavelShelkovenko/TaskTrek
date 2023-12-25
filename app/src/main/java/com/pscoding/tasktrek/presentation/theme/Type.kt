@@ -15,7 +15,6 @@ val comfortaaFamily = FontFamily(
     Font(R.font.comfortaa_regular, weight = FontWeight.Normal)
 )
 
-// Set of Material typography styles to start with
 val Typography = Typography(
     displaySmall = TextStyle(
         fontFamily = comfortaaFamily,

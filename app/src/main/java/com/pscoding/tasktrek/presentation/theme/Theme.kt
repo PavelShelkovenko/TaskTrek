@@ -17,7 +17,7 @@ private val darkColorScheme = darkColorScheme(
     secondary = Color.White,
     tertiary = Color.White,
     surface = Color.Black,
-    background = Color(0xFF1C1C1C),
+    background = BackgroundColor,
     onPrimary = Color.White,
     onSecondary = Color.Black,
     onTertiary = Color.LightGray,
@@ -30,7 +30,7 @@ private val lightColorScheme = lightColorScheme(
     secondary = Color.White,
     tertiary = Color.White,
     surface = Color.Black,
-    background = Color(0xFF1C1C1C),
+    background = BackgroundColor,
     onPrimary = Color.White,
     onSecondary = Color.Black,
     onTertiary = Color.LightGray,
@@ -55,17 +55,10 @@ fun TaskTrekTheme(
 
     val view = LocalView.current
     if (!view.isInEditMode) {
-//        SideEffect {
-//            val window = (view.context as Activity).window
-//            window.statusBarColor = colorScheme.primary.toArgb()
-//            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
-//        }
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.background.toArgb() // here change the color
-            window.navigationBarColor = colorScheme.background.toArgb() // here change the color
-
-            // here change the status bar element color
+            window.statusBarColor = colorScheme.background.toArgb()
+            window.navigationBarColor = colorScheme.background.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
             WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = !darkTheme
         }

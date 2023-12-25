@@ -35,6 +35,7 @@ fun SingleCategory(
     var isClicked by remember {
         mutableStateOf(false)
     }
+
     Box(
         modifier = modifier
             .background(MaterialTheme.colorScheme.background)

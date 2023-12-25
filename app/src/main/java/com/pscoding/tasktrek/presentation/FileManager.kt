@@ -1,6 +1,8 @@
 package com.pscoding.tasktrek.presentation
 
 import android.content.Context
+import android.util.Log
+import com.pscoding.tasktrek.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -11,8 +13,7 @@ import java.io.FileOutputStream
 
 
 class FileManager(
-    private val context: Context,
-    private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
+    private val context: Context
 ) {
 
     private val filesDir = context.filesDir
@@ -42,7 +43,7 @@ class FileManager(
                     it.write(newUserImage)
                 }
             } catch (e: Exception) {
-                println("Can't save user image")
+                Log.e(LOG_TAG,"Can't save user image")
             }
         }
     }
@@ -68,7 +69,7 @@ class FileManager(
                     it.write(newUserName.toByteArray())
                 }
             } catch (e: Exception) {
-                println("Can't save user name")
+                Log.e(LOG_TAG,"Can't save user name")
             }
         }
     }
@@ -94,7 +95,7 @@ class FileManager(
                     it.write(newUserStatus.toByteArray())
                 }
             } catch (e: Exception) {
-                println("Can't save user status")
+                Log.e(LOG_TAG,"Can't save user status")
             }
         }
     }
@@ -103,6 +104,6 @@ class FileManager(
         const val USER_IMAGE_FILE = "user_image"
         const val USER_NAME_FILE = "user_name.txt"
         const val USER_STATUS_FILE = "user_status.txt"
-        const val DEFAULT_IMAGE_VALUE = "android.resource://com.pscoding.tasktrek/drawable/android"
+        const val LOG_TAG = "FILE_MANAGER"
     }
 }

@@ -20,7 +20,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             KoinAndroidContext {
                 TaskTrekTheme {
-                    // A surface container using the 'background' color from the theme
                     Box(
                         modifier = Modifier
                             .fillMaxSize()

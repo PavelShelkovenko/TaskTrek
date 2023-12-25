@@ -40,7 +40,6 @@ fun HomeHeader(
     userImage: ByteArray?,
     userName: String,
     userStatus: String,
-    addNewTask: () -> Unit,
     onUserImageChanged: (ByteArray) -> Unit,
     onUserNameChanged: (String) -> Unit,
     onUserStatusChanged: (String) -> Unit,
@@ -91,27 +90,13 @@ fun HomeHeader(
         }
     }
 
-    Column(
-        modifier = modifier.padding(top = 12.dp, bottom = 12.dp, end = 12.dp, start = 18.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+    Row(
+        modifier = modifier.padding(end = 18.dp, start = 18.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Spacer(modifier = Modifier.weight(1f))
-            IconButton(onClick = { addNewTask() }) {
-                Icon(
-                    imageVector = Icons.Outlined.Add,
-                    tint = MaterialTheme.colorScheme.onSecondary,
-                    modifier = Modifier.size(32.dp),
-                    contentDescription = null
-                )
-            }
-        }
-        Row(
-            modifier = Modifier,
-            verticalAlignment = Alignment.CenterVertically,
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(
                 modifier = Modifier
@@ -124,31 +109,32 @@ fun HomeHeader(
                 contentScale = ContentScale.Crop,
                 contentDescription = null
             )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.clickable { openDialog.value = true },
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(
-                    modifier = Modifier.clickable { openDialog.value = true },
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = userName,
-                        color = MaterialTheme.colorScheme.onSecondary,
-                        style = MaterialTheme.typography.displayMedium,
-                    )
-                    Text(
-                        text = userStatus,
-                        color = MaterialTheme.colorScheme.onTertiary,
-                        modifier = Modifier.padding(top = 4.dp),
-                        style = MaterialTheme.typography.displaySmall,
-                    )
-                }
+                Text(
+                    text = userName,
+                    color = MaterialTheme.colorScheme.onSecondary,
+                    style = MaterialTheme.typography.displayMedium,
+                )
+                Text(
+                    text = userStatus,
+                    color = MaterialTheme.colorScheme.onTertiary,
+                    modifier = Modifier.padding(top = 4.dp),
+                    style = MaterialTheme.typography.displaySmall,
+                )
             }
         }
     }
+
 }
 
 @Preview
@@ -158,7 +144,6 @@ fun HeaderProfilePreview() {
         userImage = null,
         userName = "Lelia Hinton",
         userStatus = "suspendisse",
-        addNewTask = {},
         onUserImageChanged = {},
         onUserNameChanged = {},
         onUserStatusChanged = {},

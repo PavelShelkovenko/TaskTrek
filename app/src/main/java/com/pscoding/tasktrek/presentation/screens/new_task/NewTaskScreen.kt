@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -25,9 +26,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.pscoding.tasktrek.R
 import com.pscoding.tasktrek.presentation.components.new_task_screen.DateChooser
 import com.pscoding.tasktrek.presentation.components.new_task_screen.NewTaskCreateButton
 import com.pscoding.tasktrek.presentation.components.new_task_screen.NewTaskHeader
@@ -46,17 +49,19 @@ fun NewTaskScreen(
 
     val viewModel = koinViewModel<NewTaskViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val onShowSnackbar: () -> Unit = {
+
+    val onShowSnackbar: (String) -> Unit = { title ->
         coroutineScope.launch {
             val result = snackbarHostState
                 .showSnackbar(
-                    message = "New task has been created",
-                    actionLabel = "Undo",
+                    message = context.getString(R.string.new_task_snackbar_message, title),
+                    actionLabel = context.getString(R.string.undo),
                     duration = SnackbarDuration.Short
                 )
             when (result) {
@@ -73,7 +78,15 @@ fun NewTaskScreen(
 
     Scaffold(
         snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
+            SnackbarHost(hostState = snackbarHostState) {
+                Snackbar(
+                    snackbarData = it,
+                    shape = RoundedCornerShape(10.dp),
+                    containerColor = MaterialTheme.colorScheme.background,
+                    contentColor = MaterialTheme.colorScheme.onBackground,
+                    actionColor = MaterialTheme.colorScheme.onBackground,
+                )
+            }
         }
     ) { contentPadding ->
         Column(
@@ -158,7 +171,7 @@ fun NewTaskScreen(
                     ) {
                         NewTaskCreateButton {
                             viewModel.onEvent(NewTaskEvent.CreateTask)
-                            onShowSnackbar()
+                            onShowSnackbar(state.title)
                         }
                     }
                 }
